@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Học Tiếng Thái Online Cùng POLTV</title>
+<meta name="description" content="POLTV - Học tiếng Thái từ cơ bản đến giao tiếp: giáo trình theo lớp, từ vựng chủ đề, luyện nghe thực tế, đồng hành cùng bạn học tiếng Thái để du lịch, làm việc.">
+<meta property="og:title" content="Học Tiếng Thái Online Cùng POLTV">
+<meta property="og:description" content="POLTV - Học tiếng Thái từ cơ bản đến giao tiếp: giáo trình theo lớp, từ vựng chủ đề, luyện nghe thực tế, đồng hành cùng bạn học tiếng Thái để du lịch, làm việc.">
+<meta property="og:image" content="https://drive.google.com/thumbnail?id=1fLwbfm-z6aNOQMKuxOuPF6Aw2aNapnTl&sz=w1600">
+<meta property="og:site_name" content="POLTV">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://thuanhaidang-eng.github.io/hoctiengthai-Poltv/">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<style>
+  :root {
+    --bg-navy: #02133e;
+    --gold: #f1c232;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-navy);
+    color: var(--gold);
+    font-family: 'Roboto', Arial, sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+  .page { max-width: 900px; margin: 0 auto; padding-bottom: 40px; }
+
+  /* ---------- Nav bar dùng chung toàn site POLTV ---------- */
+  .site-nav { background: var(--bg-navy); border-bottom: 1px solid rgba(241, 194, 50, 0.25); }
+  .site-nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .site-nav-logo { color: var(--gold); font-weight: 400; font-size: 18px; text-decoration: none; letter-spacing: 0.5px; flex: none; }
+  .site-nav-links { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .site-nav-links a { color: var(--gold); text-decoration: none; font-size: 14px; font-weight: 300; opacity: 0.85; }
+  .site-nav-links a:hover { opacity: 1; text-decoration: underline; }
+  .site-nav-disabled { color: var(--gold); opacity: 0.4; font-size: 14px; font-weight: 300; cursor: not-allowed; white-space: nowrap; }
+  .site-nav-disabled .badge { font-size: 10px; border: 1px solid rgba(241, 194, 50, 0.5); border-radius: 10px; padding: 1px 6px; margin-left: 4px; }
+
+  /* ---------- Banner ---------- */
+  .banner-wrap { width: 100%; overflow: hidden; height: clamp(160px, 32vw, 340px); position: relative; }
+  .banner-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
+  .banner-title-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 10%;
+    pointer-events: none;
+  }
+  .banner-title-overlay h1 {
+    font-size: clamp(24px, 5vw, 44px);
+    font-weight: 400;
+    color: var(--gold);
+    text-shadow: -1px -1px 0 #02133e, 1px -1px 0 #02133e, -1px 1px 0 #02133e, 1px 1px 0 #02133e, 0 2px 6px rgba(0,0,0,0.6);
+    line-height: 1.3;
+  }
+  .banner-subtitle {
+    margin-top: 10px;
+    font-size: clamp(13px, 2.4vw, 17px);
+    font-weight: 300;
+    color: var(--gold);
+    text-shadow: -1px -1px 0 #02133e, 1px -1px 0 #02133e, -1px 1px 0 #02133e, 1px 1px 0 #02133e, 0 2px 6px rgba(0,0,0,0.6);
+    opacity: 0.92;
+    max-width: 520px;
+  }
+
+  .intro { padding: 24px 20px 8px; font-size: 15px; line-height: 1.7; opacity: 0.9; max-width: 720px; margin: 0 auto; text-align: center; }
+
+  /* ---------- 4 khối nội dung chính ---------- */
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; padding: 28px 20px 8px; }
+  .feature-card {
+    border: 1px solid rgba(241, 194, 50, 0.35);
+    border-radius: 10px;
+    padding: 0 0 20px;
+    text-decoration: none;
+    color: var(--gold);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+    transition: background 0.15s ease;
+  }
+  a.feature-card:hover { background: rgba(241, 194, 50, 0.06); }
+  .feature-thumb { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+  .feature-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .feature-body { display: flex; flex-direction: column; gap: 8px; padding: 0 20px; }
+  .feature-title { font-size: clamp(17px, 3.5vw, 20px); font-weight: 400; }
+  .feature-desc { font-size: 14px; opacity: 0.8; line-height: 1.55; font-weight: 300; }
+  .feature-subactions { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+  .feature-subbtn {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    padding: 10px 12px;
+    border: 1px solid rgba(241, 194, 50, 0.5);
+    border-radius: 6px;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .feature-subbtn:hover { background: rgba(241, 194, 50, 0.1); }
+  .feature-card.disabled { opacity: 0.45; cursor: not-allowed; }
+  .feature-badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 3px 9px;
+    border: 1px solid rgba(241, 194, 50, 0.5);
+    border-radius: 12px;
+    width: fit-content;
+  }
+
+  .site-footer { text-align: center; padding: 24px 20px 8px; font-size: 13px; opacity: 0.6; }
+</style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-nav-logo" href="./">POLTV</a>
+      <div class="site-nav-links">
+        <a href="./">Trang chủ</a>
+        <a href="giaotrinh/">Tiếng Thái cơ bản</a>
+        <a href="tuvung/">Từ vựng</a>
+        <a href="#luyennghe">Luyện nghe</a>
+        <span class="site-nav-disabled">Ngữ pháp<span class="badge">Sắp ra mắt</span></span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="banner-wrap">
+      <img src="https://drive.google.com/thumbnail?id=1feCqjylbAPPPGbLIeX_alLy3DxiHFw9Z&sz=w1600" alt="POLTV Banner">
+      <div class="banner-title-overlay">
+        <h1>Học Tiếng Thái Cùng POLTV</h1>
+        <p class="banner-subtitle">Giáo trình, từ vựng và luyện nghe tiếng Thái theo lộ trình rõ ràng</p>
+      </div>
+    </div>
+
+    <p class="intro">
+      POLTV đồng hành cùng bạn học tiếng Thái từ những bước đầu tiên đến khi tự tin giao tiếp -
+      qua giáo trình bài bản theo lớp, kho từ vựng theo chủ đề và các bài luyện nghe thực tế,
+      phù hợp cho người học vì công việc, du lịch hay đơn giản là yêu thích tiếng Thái.
+    </p>
+
+    <div class="feature-grid">
+      <a class="feature-card" href="giaotrinh/">
+        <div class="feature-thumb">
+          <img src="https://drive.google.com/thumbnail?id=1fLwbfm-z6aNOQMKuxOuPF6Aw2aNapnTl&sz=w1600" alt="Tiếng Thái cơ bản">
+        </div>
+        <div class="feature-body">
+          <span class="feature-title">Tiếng Thái cơ bản</span>
+          <span class="feature-desc">Học tiếng Thái theo giáo trình chuẩn Bộ Giáo dục Thái Lan, biên soạn lại dành riêng cho người Việt. Lộ trình bài bản từ Lớp 1 đến Lớp 6, giúp bạn nắm vững phát âm, từ vựng, ngữ pháp và giao tiếp hằng ngày.</span>
+        </div>
+      </a>
+
+      <a class="feature-card" href="tuvung/">
+        <div class="feature-thumb">
+          <img src="https://drive.google.com/thumbnail?id=1zvLHrfmlo79pem-EPWFvygP_-pyOMLL7&sz=w1600" alt="Từ vựng tiếng Thái theo chủ đề">
+        </div>
+        <div class="feature-body">
+          <span class="feature-title">Từ vựng tiếng Thái theo chủ đề</span>
+          <span class="feature-desc">Hàng nghìn từ vựng tiếng Thái theo chủ đề quen thuộc như gia đình, du lịch, ăn uống, công việc. Mỗi từ có chữ Thái, cách đọc, nghĩa và ví dụ minh họa dễ nhớ, dễ áp dụng.</span>
+        </div>
+      </a>
+
+      <div class="feature-card" id="luyennghe">
+        <div class="feature-thumb">
+          <img src="https://drive.google.com/thumbnail?id=1DZzHsUARjy7pkpdA-RZJ8MdqnO49qoBb&sz=w1600" alt="Luyện nghe tiếng Thái">
+        </div>
+        <div class="feature-body">
+          <span class="feature-title">Luyện nghe tiếng Thái</span>
+          <span class="feature-desc">Rèn kỹ năng nghe hiểu tiếng Thái qua hội thoại, câu chuyện thực tế theo giọng người bản xứ. Có phiên âm, dịch nghĩa và giải thích từ vựng, phù hợp cho cả người mới bắt đầu.</span>
+          <div class="feature-subactions">
+            <a class="feature-subbtn" href="luyennghe/">Nghe theo chủ đề</a>
+            <a class="feature-subbtn" href="luyennghecoban/">Nghe theo giáo trình</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card disabled" aria-disabled="true">
+        <div class="feature-thumb">
+          <img src="https://drive.google.com/thumbnail?id=1UhalJMFkL5Nlz0w5LTdQTbn3mg9fFcyz&sz=w1600" alt="Ngữ pháp tiếng Thái">
+        </div>
+        <div class="feature-body">
+          <span class="feature-title">Ngữ pháp tiếng Thái</span>
+          <span class="feature-desc">Hệ thống cấu trúc câu, mẫu câu và quy tắc ngữ pháp tiếng Thái từ cơ bản đến nâng cao, giải thích bằng tiếng Việt kèm ví dụ thực tế giúp bạn hiểu bản chất, không học vẹt.</span>
+          <span class="feature-badge">Sắp ra mắt</span>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">© POLTV - Học Tiếng Thái</footer>
+  </div>
+
+</body>
+</html>
