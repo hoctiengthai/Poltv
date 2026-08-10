@@ -79,7 +79,8 @@
   .intro { padding: 24px 20px 8px; font-size: 15px; line-height: 1.7; opacity: 0.9; max-width: 720px; margin: 0 auto; text-align: center; }
 
   /* ---------- 4 khối nội dung chính ---------- */
-  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; padding: 28px 20px 8px; }
+ .feature-grid { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 28px 20px 8px; }
+@media (min-width: 640px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
   .feature-card {
     border: 1px solid rgba(241, 194, 50, 0.35);
     border-radius: 10px;
@@ -93,7 +94,7 @@
     transition: background 0.15s ease;
   }
   a.feature-card:hover { background: rgba(241, 194, 50, 0.06); }
-  .feature-thumb { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+  .feature-thumb { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
   .feature-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .feature-body { display: flex; flex-direction: column; gap: 8px; padding: 0 20px; }
   .feature-title { font-size: clamp(17px, 3.5vw, 20px); font-weight: 400; }
