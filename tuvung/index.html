@@ -185,10 +185,10 @@
   }
   .loa-icon:hover { opacity: 0.8; }
   .loa-icon.playing { opacity: 0.55; }
-  .loa-icon.loading { opacity: 0.55; animation: tv-loa-spin 0.9s linear infinite; }
-  @keyframes tv-loa-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  .loa-icon.loading { opacity: 0.55; animation: tv-loa-breathe 1s ease-in-out infinite; }
+  @keyframes tv-loa-breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
   }
   .detail-image img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; }
 
@@ -445,13 +445,15 @@
     // có tác dụng, phải đợi phát xong.
     var tvCurrentAudio = null;
     var tvCurrentBtn = null;
+    var tvIsLoading = false; // đang chờ fetch trả về cho 1 icon nào đó -> khoá thao tác với MỌI icon
 
     // url ở đây là link route ?action=streamAudio&id=... của Apps Script (trả JSON chứa
     // data URI base64), KHÔNG phải link Drive trực tiếp - phải fetch() rồi mới phát,
     // vì Apps Script không trả được Content-Type audio nhị phân thật sự (giới hạn nền tảng).
     function tvPlayAudio(url, btnEl) {
       if (!url) return;
-      if (tvCurrentBtn === btnEl) return; // đang tải hoặc đang phát đúng icon này -> không làm gì, đợi xong
+      if (tvIsLoading) return; // đang tải icon nào đó (chưa xong) -> khoá hoàn toàn, không thao tác được icon nào cả
+      if (tvCurrentBtn === btnEl) return; // đang phát đúng icon này -> không làm gì, đợi phát xong
 
       if (tvCurrentAudio) {
         tvCurrentAudio.pause();
@@ -460,12 +462,14 @@
       if (tvCurrentBtn) tvCurrentBtn.classList.remove('playing', 'loading');
       tvCurrentAudio = null;
       tvCurrentBtn = btnEl;
+      tvIsLoading = true;
       btnEl.classList.add('loading'); // báo hiệu ngay lúc bấm - đang tải audio
 
       fetch(url)
         .then(function (res) { return res.json(); })
         .then(function (data) {
-          if (tvCurrentBtn !== btnEl) return; // đã bấm icon khác trong lúc đang tải
+          tvIsLoading = false;
+          if (tvCurrentBtn !== btnEl) return; // an toàn dự phòng, bình thường không xảy ra vì đã khoá lúc loading
           if (!data || !data.success || !data.dataUri) {
             btnEl.classList.remove('loading');
             tvCurrentBtn = null;
@@ -481,6 +485,7 @@
           tvCurrentAudio.play();
         })
         .catch(function () {
+          tvIsLoading = false;
           btnEl.classList.remove('loading');
           if (tvCurrentBtn === btnEl) tvCurrentBtn = null;
         });
