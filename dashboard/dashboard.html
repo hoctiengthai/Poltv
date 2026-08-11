@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>POLTV - Dashboard học viên</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b0e14">
+<link rel="icon" href="favicon-admin.png">
+
+<!-- Cho iOS: mở full màn hình khi thêm vào Màn hình chính (iOS không đọc manifest.json) -->
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="POLTV QLHV">
+<style>
+  :root {
+    --bg: #0b0e14;
+    --bg-card: #161b26;
+    --bg-card-2: #1d2432;
+    --border: #2a3242;
+    --text: #e8ebf1;
+    --text-dim: #8b93a7;
+    --yellow: #f5c344;
+    --green: #22c55e;
+    --green-dark: #16a34a;
+    --red: #f97066;
+    --red-bg: #2a1518;
+    --orange: #fb923c;
+    --orange-bg: #2a1f12;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    margin: 0;
+    padding: 16px;
+    padding-bottom: 60px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .header h1 { font-size: 19px; font-weight: 700; margin: 0; color: var(--text); }
+  .header p { font-size: 12px; color: var(--text-dim); margin: 3px 0 0; }
+
+  .refresh-btn {
+    background: var(--bg-card-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #0a0c12;
+    transition: transform 0.08s ease, box-shadow 0.08s ease;
+  }
+  .refresh-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 0 0 #0a0c12;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .stat-card {
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .stat-card.warning { background: var(--orange-bg); border-color: #4a3418; }
+  .stat-card.danger { background: var(--red-bg); border-color: #4a2020; }
+  .stat-card p.label { font-size: 12px; margin: 0 0 6px; }
+  .stat-card.warning p.label, .stat-card.warning p.value { color: var(--orange); }
+  .stat-card.danger p.label, .stat-card.danger p.value { color: var(--red); }
+  .stat-card p.value { font-size: 26px; font-weight: 700; margin: 0; }
+
+  .active-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 22px;
+  }
+  .active-card p.label { font-size: 12px; color: var(--text-dim); margin: 0 0 4px; }
+  .active-card p.value { font-size: 24px; font-weight: 700; margin: 0; color: var(--green); }
+
+  .section-title {
+    font-size: 13px;
+    color: var(--yellow);
+    margin: 0 0 10px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+
+  .item-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+  .item-name { font-weight: 700; font-size: 15px; margin: 0; color: var(--text); }
+  .item-email { font-size: 12px; color: var(--text-dim); margin: 3px 0 0; word-break: break-all; }
+  .item-badge {
+    background: #12291f;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    border: 1px solid #1c4531;
+  }
+
+  .code-box {
+    background: var(--bg-card-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .code-box p.label {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .code-box p.value {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 0;
+    color: var(--yellow);
+    text-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  }
+
+  .item-time { font-size: 12px; color: var(--text-dim); margin: 0 0 12px; }
+
+  .approve-btn {
+    width: 100%;
+    background: var(--green-dark);
+    color: #05170c;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #0f7a34;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s ease;
+  }
+  .approve-btn:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #0f7a34;
+  }
+  .approve-btn:disabled {
+    background: #3a4152;
+    color: var(--text-dim);
+    box-shadow: 0 4px 0 #262b36;
+    cursor: default;
+  }
+  .approve-btn:disabled:active { transform: none; box-shadow: 0 4px 0 #262b36; }
+
+  .empty-state, .loading-state {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 34px 0;
+  }
+
+  .error-banner {
+    background: var(--red-bg);
+    border: 1px solid #4a2020;
+    color: var(--red);
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+    display: none;
+  }
+  .error-banner.show { display: block; }
+
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 16px;
+    right: 16px;
+    background: #1d2432;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 13px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+    z-index: 100;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .toast.show { opacity: 1; }
+
+  @media (min-width: 560px) {
+    body { max-width: 480px; margin: 0 auto; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Sửa 2 giá trị dưới đây nếu deployment / token thay đổi -->
+  <script>
+    const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbx0zDBbIOZRRmKoqdh3GCEVyvi07vCZL9z2i3yOfC0yZ9G6tbmqnFuLz1c1MfqP7yG5/exec';
+    const API_TOKEN = '0IP7XtJrYHkJItOCeuG41NBigUWPI9D';
+  </script>
+
+  <div class="header">
+    <div>
+      <h1>POLTV học viên</h1>
+      <p id="capNhatLuc">Đang tải...</p>
+    </div>
+    <button class="refresh-btn" onclick="taiLai()" aria-label="Tải lại">&#8635;</button>
+  </div>
+
+  <div class="error-banner" id="errorBanner"></div>
+
+  <div class="stats-grid">
+    <div class="stat-card warning">
+      <p class="label">Chờ duyệt</p>
+      <p class="value" id="soChoDuyet">-</p>
+    </div>
+    <div class="stat-card danger">
+      <p class="label">Cần chú ý</p>
+      <p class="value" id="soCanChuY">-</p>
+    </div>
+  </div>
+
+  <div class="active-card">
+    <p class="label">Học viên đang hoạt động</p>
+    <p class="value" id="soHoatDong">-</p>
+  </div>
+
+  <p class="section-title">&#9679; Đang chờ duyệt</p>
+  <div id="danhSachChoDuyet"><div class="loading-state">Đang tải dữ liệu...</div></div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    function urlApi(action, thamSoThem, tenCallback) {
+      const u = new URL(API_BASE_URL);
+      u.searchParams.set('action', action);
+      u.searchParams.set('token', API_TOKEN);
+      if (thamSoThem) {
+        Object.keys(thamSoThem).forEach(function (k) { u.searchParams.set(k, thamSoThem[k]); });
+      }
+      if (tenCallback) u.searchParams.set('callback', tenCallback);
+      return u.toString();
+    }
+
+    // Gọi API bằng JSONP (thẻ <script> động) thay vì fetch(), vì Apps Script Web App
+    // không trả header CORS nên fetch() từ domain khác luôn bị trình duyệt chặn.
+    let demJsonp = 0;
+    function goiJsonp(action, thamSoThem) {
+      return new Promise(function (resolve, reject) {
+        demJsonp++;
+        const tenCallback = 'jsonp_cb_' + Date.now() + '_' + demJsonp;
+        const script = document.createElement('script');
+        let xong = false;
+
+        const donDep = function () {
+          delete window[tenCallback];
+          if (script.parentNode) script.parentNode.removeChild(script);
+          clearTimeout(hetGio);
+        };
+
+        window[tenCallback] = function (duLieu) {
+          xong = true;
+          donDep();
+          resolve(duLieu);
+        };
+
+        script.onerror = function () {
+          if (xong) return;
+          donDep();
+          reject(new Error('Không tải được API (mạng lỗi hoặc URL/token sai).'));
+        };
+
+        const hetGio = setTimeout(function () {
+          if (xong) return;
+          donDep();
+          reject(new Error('Hết thời gian chờ phản hồi từ API (15 giây).'));
+        }, 15000);
+
+        script.src = urlApi(action, thamSoThem, tenCallback);
+        document.head.appendChild(script);
+      });
+    }
+
+    function anLoiBanner() {
+      const banner = document.getElementById('errorBanner');
+      banner.classList.remove('show');
+      banner.textContent = '';
+    }
+
+    function hienLoiBanner(noiDung) {
+      const banner = document.getElementById('errorBanner');
+      banner.textContent = noiDung;
+      banner.classList.add('show');
+    }
+
+    function taiLai() {
+      document.getElementById('capNhatLuc').textContent = 'Đang tải...';
+      anLoiBanner();
+
+      goiJsonp('layDuLieuDashboard')
+        .then(function (duLieu) {
+          if (duLieu.loi) {
+            hienLoiBanner('Lỗi từ server: ' + duLieu.thongBao);
+            document.getElementById('capNhatLuc').textContent = 'Lỗi tải dữ liệu';
+            return;
+          }
+          hienThiDuLieu(duLieu);
+        })
+        .catch(function (loi) {
+          document.getElementById('capNhatLuc').textContent = 'Lỗi tải dữ liệu';
+          hienLoiBanner('Không gọi được API: ' + loi.message);
+        });
+    }
+
+    function hienThiDuLieu(duLieu) {
+      document.getElementById('soChoDuyet').textContent = duLieu.choDuyet.length;
+      document.getElementById('soCanChuY').textContent = duLieu.soLuongCanChuY;
+      document.getElementById('soHoatDong').textContent = duLieu.soLuongHoatDong;
+      document.getElementById('capNhatLuc').textContent = 'Cập nhật lúc ' + timeString();
+
+      const container = document.getElementById('danhSachChoDuyet');
+      container.innerHTML = '';
+
+      if (duLieu.choDuyet.length === 0) {
+        container.innerHTML = '<div class="empty-state">Không có đăng ký nào đang chờ duyệt</div>';
+        return;
+      }
+
+      duLieu.choDuyet.forEach(function (hv) {
+        const div = document.createElement('div');
+        div.className = 'item-card';
+        div.id = 'dong-' + hv.hang;
+        div.innerHTML =
+          '<div class="item-top">' +
+            '<div>' +
+              '<p class="item-name">' + escapeHtml(hv.hoTen) + '</p>' +
+              '<p class="item-email">' + escapeHtml(hv.email) + '</p>' +
+            '</div>' +
+            '<span class="item-badge">' + escapeHtml(hv.goiDangKy) + '</span>' +
+          '</div>' +
+          '<div class="code-box">' +
+            '<p class="label">Mã thanh toán</p>' +
+            '<p class="value">' + escapeHtml(hv.maThanhToan) + '</p>' +
+          '</div>' +
+          '<p class="item-time">Nộp lúc ' + escapeHtml(hv.dauThoiGian) + '</p>' +
+          '<button class="approve-btn" onclick="duyet(' + hv.hang + ', this)">Duyệt</button>';
+        container.appendChild(div);
+      });
+    }
+
+    function duyet(hang, nut) {
+      nut.disabled = true;
+      nut.textContent = 'Đang xử lý...';
+
+      goiJsonp('duyetHocVien', { hang: hang })
+        .then(function (ketQua) { xuLyKetQuaDuyet(hang, ketQua, nut); })
+        .catch(function (loi) {
+          nut.disabled = false;
+          nut.textContent = 'Duyệt';
+          hienThiToast('Lỗi: ' + loi.message);
+        });
+    }
+
+    function xuLyKetQuaDuyet(hang, ketQua, nut) {
+      if (ketQua.thanhCong) {
+        const item = document.getElementById('dong-' + hang);
+        if (item) item.remove();
+        hienThiToast('Đã kích hoạt thành công!');
+
+        const soCD = document.getElementById('soChoDuyet');
+        soCD.textContent = Math.max(0, parseInt(soCD.textContent, 10) - 1);
+        const soHD = document.getElementById('soHoatDong');
+        soHD.textContent = parseInt(soHD.textContent, 10) + 1;
+
+        const container = document.getElementById('danhSachChoDuyet');
+        if (container.children.length === 0) {
+          container.innerHTML = '<div class="empty-state">Không có đăng ký nào đang chờ duyệt</div>';
+        }
+      } else {
+        nut.disabled = false;
+        nut.textContent = 'Duyệt';
+        hienThiToast(ketQua.thongBao || 'Có lỗi xảy ra, vui lòng thử lại.');
+      }
+    }
+
+    function hienThiToast(noiDung) {
+      const toast = document.getElementById('toast');
+      toast.textContent = noiDung;
+      toast.classList.add('show');
+      setTimeout(function () { toast.classList.remove('show'); }, 2500);
+    }
+
+    function timeString() {
+      const d = new Date();
+      return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = (text === null || text === undefined) ? '' : text.toString();
+      return div.innerHTML;
+    }
+
+    taiLai();
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+</body>
+</html>
