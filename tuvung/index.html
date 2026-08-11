@@ -166,14 +166,17 @@
   /* ---------- Tầng 3: layout riêng module Từ vựng - 2 cột desktop/tablet, xếp dọc mobile ---------- */
   .detail-grid { display: grid; grid-template-columns: 1fr; gap: 28px; padding: 28px 20px; }
   @media (min-width: 768px) {
-    .detail-grid { grid-template-columns: 1.15fr 1fr; align-items: start; }
+    .detail-grid { grid-template-columns: 2fr 1fr; align-items: start; }
   }
   .detail-grid.single-col { grid-template-columns: 1fr; }
   .detail-text { display: flex; flex-direction: column; gap: 20px; }
   .detail-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .thai-text { font-size: clamp(24px, 6vw, 36px); font-weight: 400; color: var(--gold); line-height: 1.3; }
-  .sub-row { font-size: clamp(14px, 3.5vw, 18px); color: var(--gold); opacity: 0.75; margin-top: -12px; }
-  .example-text { font-size: clamp(17px, 4.2vw, 22px); color: var(--gold); line-height: 1.4; }
+  .sub-row { font-size: clamp(14px, 3.5vw, 18px); color: var(--gold); opacity: 0.75; margin-top: -12px; white-space: pre-wrap; }
+  /* Icon loa + nội dung nằm chung 1 hàng, icon canh theo dòng đầu tiên (không canh giữa cả
+     khối) vì nội dung có thể nhiều dòng theo đúng cách xuống dòng đã căn trong Sheet */
+  .example-row { align-items: flex-start; }
+  .example-text { font-size: clamp(17px, 4.2vw, 22px); color: var(--gold); line-height: 1.4; flex: 1 1 auto; min-width: 0; white-space: pre-wrap; }
   .loa-icon {
     width: 28px;
     height: 28px;
@@ -549,22 +552,22 @@
       if (detail.example1) {
         var ex1Row = document.createElement('div');
         ex1Row.className = 'detail-row example-row';
+        if (detail.audioExample1Url) ex1Row.appendChild(makeLoaBtn(detail.audioExample1Url));
         var ex1Text = document.createElement('span');
         ex1Text.className = 'example-text';
         ex1Text.textContent = detail.example1;
         ex1Row.appendChild(ex1Text);
-        if (detail.audioExample1Url) ex1Row.appendChild(makeLoaBtn(detail.audioExample1Url));
         textEl.appendChild(ex1Row);
       }
 
       if (detail.example2) {
         var ex2Row = document.createElement('div');
         ex2Row.className = 'detail-row example-row';
+        if (detail.audioExample2Url) ex2Row.appendChild(makeLoaBtn(detail.audioExample2Url));
         var ex2Text = document.createElement('span');
         ex2Text.className = 'example-text';
         ex2Text.textContent = detail.example2;
         ex2Row.appendChild(ex2Text);
-        if (detail.audioExample2Url) ex2Row.appendChild(makeLoaBtn(detail.audioExample2Url));
         textEl.appendChild(ex2Row);
       }
 
