@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thuanhaidang-eng.github.io/hoctiengthai-Poltv/sitemap.xml
+Sitemap: https://hoctiengthai.github.io/Poltv/sitemap.xml
