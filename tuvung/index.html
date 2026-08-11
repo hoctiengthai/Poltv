@@ -185,6 +185,11 @@
   }
   .loa-icon:hover { opacity: 0.8; }
   .loa-icon.playing { opacity: 0.55; }
+  .loa-icon.loading { opacity: 0.55; animation: tv-loa-spin 0.9s linear infinite; }
+  @keyframes tv-loa-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
   .detail-image img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; }
 
   /* ---------- Nút Quay lại (quy chuẩn chung) ---------- */
@@ -441,21 +446,44 @@
     var tvCurrentAudio = null;
     var tvCurrentBtn = null;
 
+    // url ở đây là link route ?action=streamAudio&id=... của Apps Script (trả JSON chứa
+    // data URI base64), KHÔNG phải link Drive trực tiếp - phải fetch() rồi mới phát,
+    // vì Apps Script không trả được Content-Type audio nhị phân thật sự (giới hạn nền tảng).
     function tvPlayAudio(url, btnEl) {
       if (!url) return;
-      if (tvCurrentAudio && !tvCurrentAudio.paused) {
-        if (tvCurrentBtn === btnEl) return;
+      if (tvCurrentBtn === btnEl) return; // đang tải hoặc đang phát đúng icon này -> không làm gì, đợi xong
+
+      if (tvCurrentAudio) {
         tvCurrentAudio.pause();
         tvCurrentAudio.currentTime = 0;
-        if (tvCurrentBtn) tvCurrentBtn.classList.remove('playing');
       }
-      tvCurrentAudio = new Audio(url);
+      if (tvCurrentBtn) tvCurrentBtn.classList.remove('playing', 'loading');
+      tvCurrentAudio = null;
       tvCurrentBtn = btnEl;
-      btnEl.classList.add('playing');
-      tvCurrentAudio.addEventListener('ended', function () {
-        btnEl.classList.remove('playing');
-      });
-      tvCurrentAudio.play();
+      btnEl.classList.add('loading'); // báo hiệu ngay lúc bấm - đang tải audio
+
+      fetch(url)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (tvCurrentBtn !== btnEl) return; // đã bấm icon khác trong lúc đang tải
+          if (!data || !data.success || !data.dataUri) {
+            btnEl.classList.remove('loading');
+            tvCurrentBtn = null;
+            return;
+          }
+          tvCurrentAudio = new Audio(data.dataUri);
+          btnEl.classList.remove('loading');
+          btnEl.classList.add('playing');
+          tvCurrentAudio.addEventListener('ended', function () {
+            btnEl.classList.remove('playing');
+            if (tvCurrentBtn === btnEl) tvCurrentBtn = null;
+          });
+          tvCurrentAudio.play();
+        })
+        .catch(function () {
+          btnEl.classList.remove('loading');
+          if (tvCurrentBtn === btnEl) tvCurrentBtn = null;
+        });
     }
 
     function renderWordDetail(payload) {
