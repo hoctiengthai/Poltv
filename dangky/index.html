@@ -23,17 +23,15 @@
   .step-title b{color:var(--gold);opacity:1;}
 
    
-  .goi-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px;}
-  @media (max-width:480px){.goi-grid{grid-template-columns:1fr;}}
-  .goi-card{border:1px solid rgba(241,194,50,0.35);border-radius:10px;overflow:hidden;cursor:pointer;background:transparent;text-align:left;color:var(--gold);font-family:inherit;padding:0;transition:background 0.15s ease,border-color 0.15s ease;}
-  .goi-card:hover{background:rgba(241,194,50,0.06);}
-  .goi-card.selected{border-color:var(--gold);background:rgba(241,194,50,0.12);}
-  .goi-thumb{width:100%;aspect-ratio:4/3;background:rgba(241,194,50,0.08);}
-  .goi-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
-  .goi-body{padding:12px 14px;}
-  .goi-ten{font-size:16px;font-weight:400;margin:0 0 4px;}
-  .goi-gia{font-size:15px;opacity:0.9;}
-  .goi-mota{font-size:13px;opacity:0.8;line-height:1.45;}
+  .goi-banner{width:100%;border-radius:10px;overflow:hidden;margin-bottom:16px;}
+  .goi-banner img{width:100%;display:block;}
+  .goi-list{display:flex;flex-direction:column;gap:10px;}
+  .goi-item{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid rgba(241,194,50,0.35);border-radius:8px;padding:14px 16px;cursor:pointer;background:transparent;color:var(--gold);font-family:inherit;text-align:left;width:100%;transition:background 0.15s ease,border-color 0.15s ease;}
+  .goi-item:hover{background:rgba(241,194,50,0.06);}
+  .goi-item.selected{border-color:var(--gold);background:rgba(241,194,50,0.12);}
+  .goi-item-ten{font-size:16px;font-weight:400;}
+  .goi-item-gia{font-size:15px;opacity:0.9;white-space:nowrap;}
+  .goi-item-mota{font-size:13px;opacity:0.8;text-align:right;}
   .empty-msg{opacity:0.7;font-size:15px;}
 
    
@@ -87,7 +85,7 @@
     
     <div id="buoc1">
       <p class="step-title"><b>Bước 1</b> - Chọn gói học</p>
-      <div id="goiGrid" class="goi-grid"><div class="empty-msg">Đang tải danh sách gói...</div></div>
+      <div id="goiGrid"><div class="empty-msg">Đang tải danh sách gói...</div></div>
     </div>
 
     
@@ -193,6 +191,7 @@
 
   
   let goiDaChon = null;
+  let danhSachGoiHienTai = [];
 
   function taiDanhSachGoi() {
     goiJsonp('danhSachGoi')
@@ -208,37 +207,40 @@
       });
   }
 
+  
+  
+  
   function hienThiDanhSachGoi(danhSach) {
+    danhSachGoiHienTai = danhSach;
     const grid = document.getElementById('goiGrid');
     if (danhSach.length === 0) {
       grid.innerHTML = '<div class="empty-msg">Hiện chưa có gói nào mở đăng ký.</div>';
       return;
     }
 
-    grid.innerHTML = '';
+    const anhChung = danhSach.map(function (g) { return g.anhUrl; }).filter(function (u) { return u; })[0];
+    const bannerHtml = anhChung
+      ? '<div class="goi-banner"><img src="' + escapeHtml(anhChung) + '" alt="Các gói học POLTV"></div>'
+      : '';
+
+    let listHtml = '<div class="goi-list">';
     danhSach.forEach(function (g, idx) {
-      const card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'goi-card';
-      card.id = 'goi-' + idx;
-
-      const thumbHtml = g.anhUrl
-        ? '<div class="goi-thumb"><img src="' + escapeHtml(g.anhUrl) + '" alt="' + escapeHtml(g.ten) + '"></div>'
-        : '';
-
       const giaHtml = g.laFree
-        ? '<div class="goi-mota">' + escapeHtml(g.moTa) + '</div>'
-        : '<div class="goi-gia">' + dinhDangTien(g.gia) + '</div>';
-
-      card.innerHTML = thumbHtml + '<div class="goi-body"><div class="goi-ten">' + escapeHtml(g.ten) + '</div>' + giaHtml + '</div>';
-      card.onclick = function () { chonGoi(idx, g); };
-      grid.appendChild(card);
+        ? '<span class="goi-item-mota">' + escapeHtml(g.moTa) + '</span>'
+        : '<span class="goi-item-gia">' + dinhDangTien(g.gia) + '</span>';
+      listHtml += '<button type="button" class="goi-item" id="goi-' + idx + '" onclick="chonGoi(' + idx + ')">' +
+        '<span class="goi-item-ten">' + escapeHtml(g.ten) + '</span>' + giaHtml +
+        '</button>';
     });
+    listHtml += '</div>';
+
+    grid.innerHTML = bannerHtml + listHtml;
   }
 
-  function chonGoi(idx, g) {
+  function chonGoi(idx) {
+    const g = danhSachGoiHienTai[idx];
     goiDaChon = g;
-    document.querySelectorAll('.goi-card').forEach(function (c) { c.classList.remove('selected'); });
+    document.querySelectorAll('.goi-item').forEach(function (c) { c.classList.remove('selected'); });
     document.getElementById('goi-' + idx).classList.add('selected');
 
     document.getElementById('tenGoiDangChon').textContent = g.ten;
