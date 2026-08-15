@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Đăng ký học - POLTV</title>
+<meta name="description" content="Đăng ký học tiếng Thái cùng POLTV - chọn gói, điền thông tin, nhận mã QR thanh toán ngay trên trang, không cần chờ email.">
+<link rel="canonical" href="https://poltv.vn/dangky/">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+  :root{--bg-navy:#02133e;--gold:#f1c232;}
+  *{box-sizing:border-box;}
+  body{margin:0;padding:0;background:var(--bg-navy);color:var(--gold);font-family:"Roboto","Sarabun",Arial,sans-serif;font-weight:300;-webkit-tap-highlight-color:transparent;}
+  .page{max-width:640px;margin:0 auto;padding-bottom:40px;}
+  .banner-wrap{width:100%;overflow:hidden;height:clamp(120px,26vw,260px);position:relative;}
+  .banner-wrap img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block;}
+  .banner-title-overlay{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 12%;pointer-events:none;}
+  .banner-title-overlay h1{margin:0;font-weight:400;font-size:clamp(22px,4.6vw,38px);color:var(--gold);text-shadow:-1px -1px 0 #02133e,1px -1px 0 #02133e,-1px 1px 0 #02133e,1px 1px 0 #02133e,0 2px 6px rgba(0,0,0,0.6);}
+  .container{padding:24px 20px;}
+  .step-title{font-size:15px;opacity:0.75;margin:0 0 14px;letter-spacing:0.4px;}
+  .step-title b{color:var(--gold);opacity:1;}
+
+   
+  .goi-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:8px;}
+  @media (max-width:480px){.goi-grid{grid-template-columns:1fr;}}
+  .goi-card{border:1px solid rgba(241,194,50,0.35);border-radius:10px;overflow:hidden;cursor:pointer;background:transparent;text-align:left;color:var(--gold);font-family:inherit;padding:0;transition:background 0.15s ease,border-color 0.15s ease;}
+  .goi-card:hover{background:rgba(241,194,50,0.06);}
+  .goi-card.selected{border-color:var(--gold);background:rgba(241,194,50,0.12);}
+  .goi-thumb{width:100%;aspect-ratio:4/3;background:rgba(241,194,50,0.08);}
+  .goi-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .goi-body{padding:12px 14px;}
+  .goi-ten{font-size:16px;font-weight:400;margin:0 0 4px;}
+  .goi-gia{font-size:15px;opacity:0.9;}
+  .goi-mota{font-size:13px;opacity:0.8;line-height:1.45;}
+  .empty-msg{opacity:0.7;font-size:15px;}
+
+   
+  .form-wrap{display:none;margin-top:28px;padding-top:20px;border-top:1px solid rgba(241,194,50,0.25);}
+  .form-wrap.show{display:block;}
+  .form-field{margin-bottom:14px;}
+  .form-field label{display:block;font-size:13px;opacity:0.8;margin-bottom:6px;}
+  .form-field input{width:100%;padding:12px 14px;background:rgba(241,194,50,0.08);border:1px solid rgba(241,194,50,0.4);border-radius:6px;color:var(--gold);font-family:inherit;font-weight:300;font-size:15px;outline:none;}
+  .form-field input::placeholder{color:rgba(241,194,50,0.45);}
+  .goi-dang-chon{font-size:14px;opacity:0.85;margin-bottom:16px;}
+  .goi-dang-chon b{color:var(--gold);opacity:1;}
+  .submit-btn{width:100%;padding:14px;background:var(--gold);color:var(--bg-navy);border:none;border-radius:8px;font-family:inherit;font-weight:400;font-size:16px;cursor:pointer;}
+  .submit-btn:disabled{opacity:0.5;cursor:default;}
+  .form-error{color:#ff8a8a;font-size:13px;margin-top:10px;display:none;}
+  .form-error.show{display:block;}
+
+   
+  .result-wrap{display:none;margin-top:28px;padding-top:20px;border-top:1px solid rgba(241,194,50,0.25);text-align:center;}
+  .result-wrap.show{display:block;}
+  .result-title{font-size:19px;font-weight:400;margin:0 0 12px;}
+  .qr-img{max-width:280px;width:100%;border-radius:8px;background:#fff;padding:12px;}
+  .qr-info{margin-top:16px;font-size:15px;line-height:1.7;text-align:left;background:rgba(241,194,50,0.08);border-radius:8px;padding:14px 16px;}
+  .qr-info b{color:#fff;}
+  .ma-thanh-toan{font-size:22px;font-weight:700;color:#fff;letter-spacing:1px;}
+  .luu-y-box{margin-top:14px;background:rgba(255,138,138,0.1);border-left:3px solid #ff8a8a;padding:12px 14px;font-size:13px;text-align:left;line-height:1.6;border-radius:4px;}
+  .result-error{color:#ff8a8a;font-size:15px;line-height:1.6;}
+  .thu-lai-btn{margin-top:16px;padding:10px 20px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:6px;font-family:inherit;cursor:pointer;font-size:14px;}
+
+  .faint-divider{width:100%;height:1px;background-color:var(--gold);opacity:0.4;}
+  .back-button-wrap{display:flex;justify-content:center;padding:24px 20px 8px 20px;}
+  .back-button-inner{position:relative;display:inline-block;width:60%;max-width:260px;}
+  .back-button-inner img{width:100%;display:block;}
+  .back-button-inner .back-button-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--gold);font-weight:300;font-size:clamp(13px,3.2vw,17px);white-space:nowrap;}
+
+  .chat-fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#0084FF;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.35);z-index:999;text-decoration:none;}
+  .chat-fab svg{width:28px;height:28px;fill:#fff;}
+  .chat-fab:hover{filter:brightness(1.08);}
+  @media (max-width:600px){.chat-fab{right:12px;bottom:12px;width:50px;height:50px;}.chat-fab svg{width:25px;height:25px;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="banner-wrap">
+    <img src="https://drive.google.com/thumbnail?id=1Ko8ggQkqp65vWAWXe6YVPGSikAJcELbs&amp;sz=w1600" alt="POLTV Banner">
+    <div class="banner-title-overlay"><h1>Đăng ký học tiếng Thái</h1></div>
+  </div>
+
+  <div class="container">
+
+    
+    <div id="buoc1">
+      <p class="step-title"><b>Bước 1</b> - Chọn gói học</p>
+      <div id="goiGrid" class="goi-grid"><div class="empty-msg">Đang tải danh sách gói...</div></div>
+    </div>
+
+    
+    <div id="buoc2" class="form-wrap">
+      <p class="step-title"><b>Bước 2</b> - Thông tin của bạn</p>
+      <p class="goi-dang-chon">Gói đã chọn: <b id="tenGoiDangChon"></b></p>
+
+      <div class="form-field">
+        <label for="inputHoTen">Họ tên</label>
+        <input type="text" id="inputHoTen" placeholder="Nhập họ tên của bạn">
+      </div>
+      <div class="form-field">
+        <label for="inputEmail">Email *</label>
+        <input type="email" id="inputEmail" placeholder="Dùng để nhận thông báo kích hoạt" required>
+      </div>
+      <div class="form-field">
+        <label for="inputMaGioiThieu">Mã giới thiệu (nếu có)</label>
+        <input type="text" id="inputMaGioiThieu" placeholder="VD: POLTV1234">
+      </div>
+
+      <button class="submit-btn" id="nutDangKy" onclick="dangKy()">Đăng ký ngay</button>
+      <p class="form-error" id="formError"></p>
+    </div>
+
+    
+    <div id="buoc3" class="result-wrap"></div>
+
+  </div>
+
+  <a class="back-button-wrap" href="https://poltv.vn/">
+    <div class="back-button-inner">
+      <img src="https://drive.google.com/thumbnail?id=1jM-w8ogp4eJpga1AdjFL_1VzGS61p-th&amp;sz=w500" alt="Quay lại">
+      <span class="back-button-text">Quay lại</span>
+    </div>
+  </a>
+</div>
+
+<a class="chat-fab" href="https://m.me/Poltvchannel" target="_blank" rel="noopener" aria-label="Chat với POLTV qua Messenger"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C6.48 3 2 6.94 2 11.7c0 2.6 1.36 4.93 3.5 6.5V22l3.9-2.1c.83.2 1.7.3 2.6.3 5.52 0 10-3.94 10-8.7C22 6.94 17.52 3 12 3z"/></svg></a>
+
+<script>
+  
+  const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbx0zDBbIOZRRmKoqdh3GCEVyvi07vCZL9z2i3yOfC0yZ9G6tbmqnFuLz1c1MfqP7yG5/exec';
+  const NGAN_HANG_BIN = '970432';
+  const NGAN_HANG_SO_TK = 'AGBSPIGZT913JW';
+  const NGAN_HANG_TEN_CHU_TK = 'DANG THUAN HAI';
+
+  
+  
+  
+  let demJsonp = 0;
+  function goiJsonp(action, thamSoThem) {
+    return new Promise(function (resolve, reject) {
+      demJsonp++;
+      const tenCallback = 'jsonp_cb_' + Date.now() + '_' + demJsonp;
+      const u = new URL(API_BASE_URL);
+      u.searchParams.set('action', action);
+      if (thamSoThem) {
+        Object.keys(thamSoThem).forEach(function (k) { u.searchParams.set(k, thamSoThem[k]); });
+      }
+      u.searchParams.set('callback', tenCallback);
+
+      const script = document.createElement('script');
+      let xong = false;
+
+      const donDep = function () {
+        delete window[tenCallback];
+        if (script.parentNode) script.parentNode.removeChild(script);
+        clearTimeout(hetGio);
+      };
+
+      window[tenCallback] = function (duLieu) {
+        xong = true;
+        donDep();
+        resolve(duLieu);
+      };
+
+      script.onerror = function () {
+        if (xong) return;
+        donDep();
+        reject(new Error('Không tải được API (mạng lỗi).'));
+      };
+
+      const hetGio = setTimeout(function () {
+        if (xong) return;
+        donDep();
+        reject(new Error('Hết thời gian chờ phản hồi (20 giây), vui lòng thử lại.'));
+      }, 20000);
+
+      script.src = u.toString();
+      document.head.appendChild(script);
+    });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = (text === null || text === undefined) ? '' : text.toString();
+    return div.innerHTML;
+  }
+
+  function dinhDangTien(so) {
+    return Number(so).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
+  }
+
+  
+  let goiDaChon = null;
+
+  function taiDanhSachGoi() {
+    goiJsonp('danhSachGoi')
+      .then(function (ketQua) {
+        if (!ketQua.ok) {
+          document.getElementById('goiGrid').innerHTML = '<div class="empty-msg">Không tải được danh sách gói, vui lòng tải lại trang.</div>';
+          return;
+        }
+        hienThiDanhSachGoi(ketQua.goi || []);
+      })
+      .catch(function () {
+        document.getElementById('goiGrid').innerHTML = '<div class="empty-msg">Không tải được danh sách gói, vui lòng tải lại trang.</div>';
+      });
+  }
+
+  function hienThiDanhSachGoi(danhSach) {
+    const grid = document.getElementById('goiGrid');
+    if (danhSach.length === 0) {
+      grid.innerHTML = '<div class="empty-msg">Hiện chưa có gói nào mở đăng ký.</div>';
+      return;
+    }
+
+    grid.innerHTML = '';
+    danhSach.forEach(function (g, idx) {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'goi-card';
+      card.id = 'goi-' + idx;
+
+      const thumbHtml = g.anhUrl
+        ? '<div class="goi-thumb"><img src="' + escapeHtml(g.anhUrl) + '" alt="' + escapeHtml(g.ten) + '"></div>'
+        : '';
+
+      const giaHtml = g.laFree
+        ? '<div class="goi-mota">' + escapeHtml(g.moTa) + '</div>'
+        : '<div class="goi-gia">' + dinhDangTien(g.gia) + '</div>';
+
+      card.innerHTML = thumbHtml + '<div class="goi-body"><div class="goi-ten">' + escapeHtml(g.ten) + '</div>' + giaHtml + '</div>';
+      card.onclick = function () { chonGoi(idx, g); };
+      grid.appendChild(card);
+    });
+  }
+
+  function chonGoi(idx, g) {
+    goiDaChon = g;
+    document.querySelectorAll('.goi-card').forEach(function (c) { c.classList.remove('selected'); });
+    document.getElementById('goi-' + idx).classList.add('selected');
+
+    document.getElementById('tenGoiDangChon').textContent = g.ten;
+    document.getElementById('buoc2').classList.add('show');
+    document.getElementById('buoc2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  
+  (function dienSanMaGioiThieu() {
+    const thamSo = new URLSearchParams(window.location.search);
+    const ref = thamSo.get('ref');
+    if (ref) document.getElementById('inputMaGioiThieu').value = ref;
+  })();
+
+  
+  function dangKy() {
+    const email = document.getElementById('inputEmail').value.trim();
+    const hoTen = document.getElementById('inputHoTen').value.trim();
+    const maGioiThieu = document.getElementById('inputMaGioiThieu').value.trim();
+    const loiEl = document.getElementById('formError');
+
+    if (!goiDaChon) {
+      loiEl.textContent = 'Vui lòng chọn 1 gói học ở Bước 1.';
+      loiEl.classList.add('show');
+      return;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      loiEl.textContent = 'Vui lòng nhập đúng định dạng email.';
+      loiEl.classList.add('show');
+      return;
+    }
+    loiEl.classList.remove('show');
+
+    const nut = document.getElementById('nutDangKy');
+    nut.disabled = true;
+    nut.textContent = 'Đang xử lý...';
+
+    goiJsonp('dangKyHocVien', { email: email, hoTen: hoTen, goiDangKy: goiDaChon.ten, maGioiThieu: maGioiThieu })
+      .then(function (ketQua) {
+        hienThiKetQua(ketQua);
+      })
+      .catch(function (loi) {
+        nut.disabled = false;
+        nut.textContent = 'Đăng ký ngay';
+        loiEl.textContent = loi.message;
+        loiEl.classList.add('show');
+      });
+  }
+
+  
+  function hienThiKetQua(ketQua) {
+    document.getElementById('buoc1').style.display = 'none';
+    document.getElementById('buoc2').classList.remove('show');
+
+    const buoc3 = document.getElementById('buoc3');
+    buoc3.classList.add('show');
+
+    if (ketQua.ok && ketQua.loai === 'qr') {
+      const urlQR = 'https://img.vietqr.io/image/' + NGAN_HANG_BIN + '-' + NGAN_HANG_SO_TK + '-compact2.png'
+        + '?amount=' + ketQua.soTien
+        + '&addInfo=' + encodeURIComponent(ketQua.maThanhToan)
+        + '&accountName=' + encodeURIComponent(NGAN_HANG_TEN_CHU_TK);
+
+      buoc3.innerHTML =
+        '<p class="result-title">Quét mã QR để thanh toán</p>' +
+        '<img class="qr-img" src="' + urlQR + '" alt="Mã QR thanh toán">' +
+        '<div class="qr-info">' +
+          'Gói: <b>' + escapeHtml(ketQua.goiDangKy) + '</b><br>' +
+          'Số tiền: <b>' + dinhDangTien(ketQua.soTien) + '</b><br>' +
+          'Mã thanh toán: <span class="ma-thanh-toan">' + escapeHtml(ketQua.maThanhToan) + '</span>' +
+        '</div>' +
+        '<div class="luu-y-box">' +
+          '<b>Lưu ý:</b> nếu app ngân hàng không tự điền được theo QR, chuyển khoản thủ công đúng số tiền và <b>bắt buộc ghi đúng mã thanh toán ở trên</b> vào nội dung chuyển khoản. ' +
+          'Hoàn tất thanh toán trong vòng <b>24 giờ</b>, quá hạn cần đăng ký lại. Hệ thống tự động kích hoạt ngay sau khi nhận được thanh toán.' +
+        '</div>';
+      return;
+    }
+
+    if (ketQua.ok && ketQua.loai === 'free') {
+      buoc3.innerHTML =
+        '<p class="result-title">🎉 Kích hoạt thành công!</p>' +
+        '<p>Tài khoản của bạn đã được kích hoạt ngay, vui lòng kiểm tra email để xem link truy cập bài học.</p>';
+      return;
+    }
+
+    buoc3.innerHTML =
+      '<p class="result-title">Không hoàn tất được đăng ký</p>' +
+      '<p class="result-error">' + escapeHtml(ketQua.loi || 'Có lỗi xảy ra, vui lòng thử lại.') + '</p>' +
+      '<button class="thu-lai-btn" onclick="location.reload()">Thử lại</button>';
+  }
+
+  taiDanhSachGoi();
+</script>
+</body>
+</html>
