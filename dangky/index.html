@@ -23,8 +23,9 @@
   .step-title b{color:var(--gold);opacity:1;}
 
    
-  .goi-banner{width:100%;border-radius:10px;overflow:hidden;margin-bottom:16px;}
+  .goi-banner{width:100%;border-radius:10px;overflow:hidden;margin-bottom:12px;}
   .goi-banner img{width:100%;display:block;}
+  .huong-dan-text{font-size:14px;line-height:1.6;opacity:0.85;text-align:center;margin:0 0 20px;}
   .goi-list{display:flex;flex-direction:column;gap:10px;}
   .goi-item{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid rgba(241,194,50,0.35);border-radius:8px;padding:14px 16px;cursor:pointer;background:transparent;color:var(--gold);font-family:inherit;text-align:left;width:100%;transition:background 0.15s ease,border-color 0.15s ease;}
   .goi-item:hover{background:rgba(241,194,50,0.06);}
@@ -222,6 +223,7 @@
     const bannerHtml = anhChung
       ? '<div class="goi-banner"><img src="' + escapeHtml(anhChung) + '" alt="Các gói học POLTV"></div>'
       : '';
+    const huongDanHtml = '<p class="huong-dan-text">Chọn 1 gói phù hợp bên dưới, điền thông tin của bạn ở Bước 2, và nhận mã QR thanh toán ngay trên trang này - không cần chờ email. Sau khi chuyển khoản, tài khoản của bạn sẽ được kích hoạt trong thời gian sớm nhất.</p>';
 
     let listHtml = '<div class="goi-list">';
     danhSach.forEach(function (g, idx) {
@@ -234,7 +236,7 @@
     });
     listHtml += '</div>';
 
-    grid.innerHTML = bannerHtml + listHtml;
+    grid.innerHTML = bannerHtml + huongDanHtml + listHtml;
   }
 
   function chonGoi(idx) {
