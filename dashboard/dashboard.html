@@ -97,6 +97,25 @@
   .active-card p.label { font-size: 12px; color: var(--text-dim); margin: 0 0 4px; }
   .active-card p.value { font-size: 24px; font-weight: 700; margin: 0; color: var(--green); }
 
+  .status-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    padding: 13px 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .status-banner .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .status-banner.ok { background: #12291f; color: var(--green); border-color: #1c4531; }
+  .status-banner.ok .dot { background: var(--green); }
+  .status-banner.warn { background: var(--orange-bg); color: var(--orange); border-color: #4a3418; }
+  .status-banner.warn .dot { background: var(--orange); }
+  .status-banner.error { background: var(--red-bg); color: var(--red); border-color: #4a2020; }
+  .status-banner.error .dot { background: var(--red); }
+
   .section-title {
     font-size: 13px;
     color: var(--yellow);
@@ -104,6 +123,28 @@
     font-weight: 600;
     letter-spacing: 0.2px;
   }
+
+  .info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 4px 14px;
+    margin-bottom: 22px;
+  }
+  .expiry-item, .log-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .expiry-item:last-child, .log-item:last-child { border-bottom: none; }
+  .expiry-name { font-weight: 600; color: var(--text); }
+  .expiry-email { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .expiry-days { font-size: 12px; font-weight: 700; color: var(--orange); white-space: nowrap; }
+  .log-time { font-size: 12px; color: var(--text-dim); white-space: nowrap; }
 
   .item-card {
     background: var(--bg-card);
@@ -248,6 +289,11 @@
 
   <div class="error-banner" id="errorBanner"></div>
 
+  <div class="status-banner ok" id="trangThaiBanner">
+    <span class="dot"></span>
+    <span id="trangThaiText">Đang tải...</span>
+  </div>
+
   <div class="stats-grid">
     <div class="stat-card warning">
       <p class="label">Chờ duyệt</p>
@@ -263,6 +309,12 @@
     <p class="label">Học viên đang hoạt động</p>
     <p class="value" id="soHoatDong">-</p>
   </div>
+
+  <p class="section-title">&#9679; Sắp hết hạn (trong 7 ngày tới)</p>
+  <div class="info-card"><div id="danhSachSapHetHan"><div class="loading-state">Đang tải dữ liệu...</div></div></div>
+
+  <p class="section-title">&#9679; Vừa tự kích hoạt gần đây</p>
+  <div class="info-card"><div id="danhSachNhatKy"><div class="loading-state">Đang tải dữ liệu...</div></div></div>
 
   <p class="section-title">&#9679; Đang chờ duyệt</p>
   <div id="danhSachChoDuyet"><div class="loading-state">Đang tải dữ liệu...</div></div>
@@ -357,6 +409,10 @@
       document.getElementById('soHoatDong').textContent = duLieu.soLuongHoatDong;
       document.getElementById('capNhatLuc').textContent = 'Cập nhật lúc ' + timeString();
 
+      hienThiTrangThai(duLieu.trangThai, duLieu.choDuyet.length, duLieu.soLuongCanChuY);
+      hienThiSapHetHan(duLieu.sapHetHan || []);
+      hienThiNhatKy(duLieu.nhatKyGanDay || []);
+
       const container = document.getElementById('danhSachChoDuyet');
       container.innerHTML = '';
 
@@ -405,21 +461,65 @@
         const item = document.getElementById('dong-' + hang);
         if (item) item.remove();
         hienThiToast('Đã kích hoạt thành công!');
-
-        const soCD = document.getElementById('soChoDuyet');
-        soCD.textContent = Math.max(0, parseInt(soCD.textContent, 10) - 1);
-        const soHD = document.getElementById('soHoatDong');
-        soHD.textContent = parseInt(soHD.textContent, 10) + 1;
-
-        const container = document.getElementById('danhSachChoDuyet');
-        if (container.children.length === 0) {
-          container.innerHTML = '<div class="empty-state">Không có đăng ký nào đang chờ duyệt</div>';
-        }
+        // Tải lại toàn bộ (thay vì tự vá số liệu cục bộ) để banner/sắp hết hạn/nhật ký
+        // luôn khớp đúng với dữ liệu mới nhất trên Sheet, không chỉ riêng 2 con số cũ.
+        taiLai();
       } else {
         nut.disabled = false;
         nut.textContent = 'Duyệt';
         hienThiToast(ketQua.thongBao || 'Có lỗi xảy ra, vui lòng thử lại.');
       }
+    }
+
+    function hienThiTrangThai(trangThai, soChoDuyet, soCanChuY) {
+      const banner = document.getElementById('trangThaiBanner');
+      const text = document.getElementById('trangThaiText');
+      banner.className = 'status-banner ' + (trangThai === 'loi' ? 'error' : trangThai === 'canDuyet' ? 'warn' : 'ok');
+      if (trangThai === 'loi') {
+        text.textContent = soCanChuY + ' lỗi cần xử lý';
+      } else if (trangThai === 'canDuyet') {
+        text.textContent = soChoDuyet + ' giao dịch SePay chưa khớp, cần duyệt tay';
+      } else {
+        text.textContent = 'Hệ thống hoạt động bình thường';
+      }
+    }
+
+    function hienThiSapHetHan(ds) {
+      const container = document.getElementById('danhSachSapHetHan');
+      container.innerHTML = '';
+      if (ds.length === 0) {
+        container.innerHTML = '<div class="empty-state">Không có ai sắp hết hạn trong 7 ngày tới</div>';
+        return;
+      }
+      ds.forEach(function (hv) {
+        const div = document.createElement('div');
+        div.className = 'expiry-item';
+        div.innerHTML =
+          '<div>' +
+            '<div class="expiry-name">' + escapeHtml(hv.hoTen) + '</div>' +
+            '<div class="expiry-email">' + escapeHtml(hv.email) + ' &middot; ' + escapeHtml(hv.goiDangKy) + '</div>' +
+          '</div>' +
+          '<div class="expiry-days">' + (hv.soNgayConLai <= 0 ? 'Hết hạn hôm nay' : 'Còn ' + hv.soNgayConLai + ' ngày') + '</div>';
+        container.appendChild(div);
+      });
+    }
+
+    function hienThiNhatKy(ds) {
+      const container = document.getElementById('danhSachNhatKy');
+      container.innerHTML = '';
+      if (ds.length === 0) {
+        container.innerHTML = '<div class="empty-state">Chưa có hoạt động nào gần đây</div>';
+        return;
+      }
+      ds.forEach(function (muc) {
+        const div = document.createElement('div');
+        div.className = 'log-item';
+        const nhan = muc.loai === 'gia_han' ? 'Gia hạn' : 'Kích hoạt';
+        div.innerHTML =
+          '<span>' + escapeHtml(nhan) + ' &mdash; ' + escapeHtml(muc.ten) + '</span>' +
+          '<span class="log-time">' + escapeHtml(muc.thoiGian) + '</span>';
+        container.appendChild(div);
+      });
     }
 
     function hienThiToast(noiDung) {
@@ -441,6 +541,19 @@
     }
 
     taiLai();
+
+    // Tự tải lại khi Poldang mở app trở lại từ nền (PWA không tự reload trang khi resume) -
+    // đây chính là nguyên nhân trước đây app "chưa đồng bộ" với Sheet sau khi SePay tự động
+    // duyệt: app vẫn hiện đúng dữ liệu lúc mở lần trước, không tự biết Sheet vừa đổi.
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') taiLai();
+    });
+
+    // Poll nhẹ mỗi 60 giây trong lúc app đang mở, để banner/số liệu tự cập nhật ngay cả khi
+    // không thao tác gì - chỉ chạy khi tab đang hiển thị, tránh tốn pin/data khi để nền.
+    setInterval(function () {
+      if (document.visibilityState === 'visible') taiLai();
+    }, 60000);
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
