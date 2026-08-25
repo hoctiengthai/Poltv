@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://poltv.vn/</loc></url>
-  <url><loc>https://poltv.vn/giaotrinh/</loc></url>
-  <url><loc>https://poltv.vn/tuvung/</loc></url>
-  <url><loc>https://poltv.vn/luyennghe/</loc></url>
-  <url><loc>https://poltv.vn/luyennghecoban/</loc></url>
-  <url><loc>https://poltv.vn/nguphap/</loc></url>
+<url><loc>https://poltv.vn/</loc></url>
+<url><loc>https://poltv.vn/giaotrinh/</loc></url>
+<url><loc>https://poltv.vn/tuvung/</loc></url>
+<url><loc>https://poltv.vn/luyennghe/</loc></url>
+<url><loc>https://poltv.vn/luyennghecoban/</loc></url>
+<url><loc>https://poltv.vn/nguphap/</loc></url>
+<url><loc>https://poltv.vn/gioi-thieu/</loc></url>
+<url><loc>https://poltv.vn/lien-he/</loc></url>
+<url><loc>https://poltv.vn/chinh-sach/</loc></url>
 </urlset>
