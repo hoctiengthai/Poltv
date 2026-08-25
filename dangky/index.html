@@ -5,6 +5,7 @@
 <title>Đăng ký học - POLTV</title>
 <meta name="description" content="Đăng ký học tiếng Thái cùng POLTV - chọn gói, điền thông tin, nhận mã QR thanh toán ngay trên trang, không cần chờ email.">
 <link rel="canonical" href="https://poltv.vn/dangky/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Course","name":"Khoá học tiếng Thái online POLTV","description":"Khoá học tiếng Thái online theo giáo trình, từ vựng, ngữ pháp và luyện nghe - dành cho người Việt học tiếng Thái từ cơ bản đến giao tiếp.","provider":{"@type":"Organization","name":"POLTV","sameAs":["https://www.youtube.com/@Polvlog","https://www.facebook.com/Poltvchannel"]},"offers":[{"@type":"Offer","name":"Gói 1 tháng","price":"149000","priceCurrency":"VND","url":"https://poltv.vn/dangky/","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"Gói 3 tháng","price":"399000","priceCurrency":"VND","url":"https://poltv.vn/dangky/","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"Gói 6 tháng","price":"699000","priceCurrency":"VND","url":"https://poltv.vn/dangky/","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"Gói 12 tháng","price":"1199000","priceCurrency":"VND","url":"https://poltv.vn/dangky/","availability":"https://schema.org/InStock"},{"@type":"Offer","name":"Gói FREE trải nghiệm 1 tháng","price":"0","priceCurrency":"VND","url":"https://poltv.vn/dangky/","availability":"https://schema.org/InStock"}]}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,8 +22,6 @@
   .container{padding:24px 20px;}
   .step-title{font-size:15px;opacity:0.75;margin:0 0 14px;letter-spacing:0.4px;}
   .step-title b{color:var(--gold);opacity:1;}
-
-   
   .goi-banner{width:100%;border-radius:10px;overflow:hidden;margin-bottom:12px;}
   .goi-banner img{width:100%;display:block;}
   .huong-dan-text{font-size:14px;line-height:1.6;opacity:0.85;text-align:center;margin:0 0 20px;}
@@ -34,8 +33,6 @@
   .goi-item-gia{font-size:15px;opacity:0.9;white-space:nowrap;}
   .goi-item-mota{font-size:13px;opacity:0.8;text-align:right;}
   .empty-msg{opacity:0.7;font-size:15px;}
-
-   
   .form-wrap{display:none;margin-top:28px;padding-top:20px;border-top:1px solid rgba(241,194,50,0.25);}
   .form-wrap.show{display:block;}
   .form-field{margin-bottom:14px;}
@@ -48,8 +45,6 @@
   .submit-btn:disabled{opacity:0.5;cursor:default;}
   .form-error{color:#ff8a8a;font-size:13px;margin-top:10px;display:none;}
   .form-error.show{display:block;}
-
-   
   .result-wrap{display:none;margin-top:28px;padding-top:20px;border-top:1px solid rgba(241,194,50,0.25);text-align:center;}
   .result-wrap.show{display:block;}
   .result-title{font-size:19px;font-weight:400;margin:0 0 12px;}
@@ -60,13 +55,11 @@
   .luu-y-box{margin-top:14px;background:rgba(255,138,138,0.1);border-left:3px solid #ff8a8a;padding:12px 14px;font-size:13px;text-align:left;line-height:1.6;border-radius:4px;}
   .result-error{color:#ff8a8a;font-size:15px;line-height:1.6;}
   .thu-lai-btn{margin-top:16px;padding:10px 20px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:6px;font-family:inherit;cursor:pointer;font-size:14px;}
-
   .faint-divider{width:100%;height:1px;background-color:var(--gold);opacity:0.4;}
   .back-button-wrap{display:flex;justify-content:center;padding:24px 20px 8px 20px;}
   .back-button-inner{position:relative;display:inline-block;width:60%;max-width:260px;}
   .back-button-inner img{width:100%;display:block;}
   .back-button-inner .back-button-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--gold);font-weight:300;font-size:clamp(13px,3.2vw,17px);white-space:nowrap;}
-
   .chat-fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#0084FF;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.35);z-index:999;text-decoration:none;}
   .chat-fab svg{width:28px;height:28px;fill:#fff;}
   .chat-fab:hover{filter:brightness(1.08);}
@@ -77,19 +70,17 @@
 <div class="page">
 
   <div class="banner-wrap">
-    <img src="https://drive.google.com/thumbnail?id=1Ko8ggQkqp65vWAWXe6YVPGSikAJcELbs&amp;sz=w1600" alt="POLTV Banner">
+    <img src="https://drive.google.com/thumbnail?id=1Ko8ggQkqp65vWAWXe6YVPGSikAJcELbs&sz=w1600" alt="POLTV Banner">
     <div class="banner-title-overlay"><h1>Đăng ký học tiếng Thái</h1></div>
   </div>
 
   <div class="container">
 
-    
     <div id="buoc1">
       <p class="step-title"><b>Bước 1</b> - Chọn gói học</p>
       <div id="goiGrid"><div class="empty-msg">Đang tải danh sách gói...</div></div>
     </div>
 
-    
     <div id="buoc2" class="form-wrap">
       <p class="step-title"><b>Bước 2</b> - Thông tin của bạn</p>
       <p class="goi-dang-chon">Gói đã chọn: <b id="tenGoiDangChon"></b></p>
@@ -111,14 +102,13 @@
       <p class="form-error" id="formError"></p>
     </div>
 
-    
     <div id="buoc3" class="result-wrap"></div>
 
   </div>
 
   <a class="back-button-wrap" href="https://poltv.vn/">
     <div class="back-button-inner">
-      <img src="https://drive.google.com/thumbnail?id=1jM-w8ogp4eJpga1AdjFL_1VzGS61p-th&amp;sz=w500" alt="Quay lại">
+      <img src="https://drive.google.com/thumbnail?id=1jM-w8ogp4eJpga1AdjFL_1VzGS61p-th&sz=w500" alt="Quay lại">
       <span class="back-button-text">Quay lại</span>
     </div>
   </a>
@@ -127,15 +117,11 @@
 <a class="chat-fab" href="https://m.me/Poltvchannel" target="_blank" rel="noopener" aria-label="Chat với POLTV qua Messenger"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 3C6.48 3 2 6.94 2 11.7c0 2.6 1.36 4.93 3.5 6.5V22l3.9-2.1c.83.2 1.7.3 2.6.3 5.52 0 10-3.94 10-8.7C22 6.94 17.52 3 12 3z"/></svg></a>
 
 <script>
-  
   const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbx0zDBbIOZRRmKoqdh3GCEVyvi07vCZL9z2i3yOfC0yZ9G6tbmqnFuLz1c1MfqP7yG5/exec';
   const NGAN_HANG_BIN = '970432';
   const NGAN_HANG_SO_TK = 'AGBSPIGZT913JW';
   const NGAN_HANG_TEN_CHU_TK = 'DANG THUAN HAI';
 
-  
-  
-  
   let demJsonp = 0;
   function goiJsonp(action, thamSoThem) {
     return new Promise(function (resolve, reject) {
@@ -190,7 +176,6 @@
     return Number(so).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ';
   }
 
-  
   let goiDaChon = null;
   let danhSachGoiHienTai = [];
 
@@ -208,9 +193,6 @@
       });
   }
 
-  
-  
-  
   function hienThiDanhSachGoi(danhSach) {
     danhSachGoiHienTai = danhSach;
     const grid = document.getElementById('goiGrid');
@@ -250,14 +232,12 @@
     document.getElementById('buoc2').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  
   (function dienSanMaGioiThieu() {
     const thamSo = new URLSearchParams(window.location.search);
     const ref = thamSo.get('ref');
     if (ref) document.getElementById('inputMaGioiThieu').value = ref;
   })();
 
-  
   function dangKy() {
     const email = document.getElementById('inputEmail').value.trim();
     const hoTen = document.getElementById('inputHoTen').value.trim();
@@ -292,7 +272,6 @@
       });
   }
 
-  
   function hienThiKetQua(ketQua) {
     document.getElementById('buoc1').style.display = 'none';
     document.getElementById('buoc2').classList.remove('show');
