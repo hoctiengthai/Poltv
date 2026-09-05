@@ -47,7 +47,7 @@
   .back-button-wrap{display:flex;justify-content:center;padding:24px 20px 8px 20px;}
   .back-button-inner{position:relative;display:inline-block;width:60%;max-width:260px;}
   .back-button-inner img{width:100%;display:block;}
-  .back-button-inner .back-button-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:var(--gold);font-weight:300;font-size:clamp(13px,3.2vw,17px);white-space:nowrap;}
+  
   .chat-fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#0084FF;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.35);z-index:999;text-decoration:none;}
   .chat-fab svg{width:28px;height:28px;fill:#fff;}
   .chat-fab:hover{filter:brightness(1.08);}
