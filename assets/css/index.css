@@ -69,29 +69,32 @@
 
   .intro { padding: 24px 20px 8px; font-size: 15px; line-height: 1.7; opacity: 0.9; max-width: 720px; margin: 0 auto; text-align: center; }
 
-  /* ---------- 4 khối nội dung chính ---------- */
- .feature-grid { display: grid; grid-template-columns: 1fr; gap: 24px; padding: 28px 20px 8px; }
-@media (min-width: 640px) { .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+  /* ---------- 4 khối nội dung chính (bố cục "góc nhô", xếp DỌC 1 cột cho
+     MỌI kích thước màn hình - đổi 2026-09-05 theo yêu cầu Poldang) ---------- */
+  .feature-grid { display: flex; flex-direction: column; gap: 34px; padding: 28px 20px 8px; }
   .feature-card {
+    position: relative;
     border: 1px solid rgba(209,213,219, 0.35);
-    border-radius: 10px;
-    padding: 0 0 20px;
+    border-radius: 14px;
+    padding: 34px 20px 20px;
     text-decoration: none;
     color: var(--gold);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    overflow: hidden;
+    display: block;
     transition: background 0.15s ease;
   }
   a.feature-card:hover { background: rgba(209,213,219, 0.06); }
-  .feature-icon { width: 100%; display: flex; align-items: center; justify-content: center; padding: 32px 0 4px; }
-  .feature-icon-badge { width: 80px; height: 80px; border-radius: 50%; background: rgba(209,213,219,0.08); border: 1.5px solid rgba(209,213,219,0.4); display: flex; align-items: center; justify-content: center; }
-  .feature-icon-badge svg { width: 38px; height: 38px; stroke: var(--gold); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-  .feature-body { display: flex; flex-direction: column; gap: 8px; padding: 0 20px; }
-  .feature-title { font-size: clamp(17px, 3.5vw, 20px); font-weight: 400; }
-  .feature-desc { font-size: 14px; opacity: 0.8; line-height: 1.55; font-weight: 300; }
-  .feature-subactions { display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap; }
+  .feature-icon-badge {
+    position: absolute; top: -20px; left: -20px;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: var(--bg-navy);
+    border: 1.5px solid rgba(209,213,219,0.4);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .feature-icon-badge svg { width: 25px; height: 25px; stroke: var(--gold); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .feature-head { margin: 0 0 10px 42px; min-height: 26px; display: flex; align-items: center; }
+  .feature-title { font-size: clamp(16px, 3.2vw, 19px); font-weight: 400; }
+  .feature-desc { display: block; font-size: 14px; opacity: 0.8; line-height: 1.55; font-weight: 300; }
+  .feature-subactions { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
   .feature-subbtn {
     flex: 1;
     min-width: 140px;
