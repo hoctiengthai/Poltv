@@ -85,8 +85,9 @@
     transition: background 0.15s ease;
   }
   a.feature-card:hover { background: rgba(209,213,219, 0.06); }
-  .feature-thumb { width: 100%; aspect-ratio: 1 / 1; overflow: hidden; }
-  .feature-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .feature-icon { width: 100%; display: flex; align-items: center; justify-content: center; padding: 32px 0 4px; }
+  .feature-icon-badge { width: 80px; height: 80px; border-radius: 50%; background: rgba(209,213,219,0.08); border: 1.5px solid rgba(209,213,219,0.4); display: flex; align-items: center; justify-content: center; }
+  .feature-icon-badge svg { width: 38px; height: 38px; stroke: var(--gold); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .feature-body { display: flex; flex-direction: column; gap: 8px; padding: 0 20px; }
   .feature-title { font-size: clamp(17px, 3.5vw, 20px); font-weight: 400; }
   .feature-desc { font-size: 14px; opacity: 0.8; line-height: 1.55; font-weight: 300; }
