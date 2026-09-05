@@ -134,4 +134,4 @@
   }
   .site-social a:hover { opacity: 1; background: rgba(209,213,219, 0.08); }
   .site-social svg { width: 17px; height: 17px; fill: currentColor; }
-.chat-fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#0084FF;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.35);z-index:999;text-decoration:none;}.chat-fab svg{width:28px;height:28px;fill:#fff;}.chat-fab:hover{filter:brightness(1.08);}@media (max-width:600px){.chat-fab{right:12px;bottom:12px;width:50px;height:50px;}.chat-fab svg{width:25px;height:25px;}}
+.chat-fab{position:fixed;right:16px;bottom:16px;width:56px;height:56px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(0,0,0,0.35);z-index:999;text-decoration:none;}.chat-fab svg{width:28px;height:28px;fill:#33060e;}.chat-fab:hover{filter:brightness(1.08);}@media (max-width:600px){.chat-fab{right:12px;bottom:12px;width:50px;height:50px;}.chat-fab svg{width:25px;height:25px;}}
