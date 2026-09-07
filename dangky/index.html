@@ -189,7 +189,7 @@
     document.getElementById('goi-' + idx).classList.add('selected');
 
     document.getElementById('tenGoiDangChon').textContent = g.ten;
-    document.getElementById('goiDangChonPhu').textContent = g.laFree ? g.moTa : dinhDangTien(g.gia);
+    document.getElementById('goiDangChonPhu').textContent = '(' + (g.laFree ? g.moTa : dinhDangTien(g.gia)) + ')';
     document.getElementById('buoc2').classList.add('show');
     document.getElementById('buoc2').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
