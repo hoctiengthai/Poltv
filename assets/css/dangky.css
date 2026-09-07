@@ -32,7 +32,8 @@
   .form-field input{width:100%;padding:12px 14px;background:rgba(209,213,219,0.08);border:1px solid rgba(209,213,219,0.4);border-radius:6px;color:var(--gold);font-family:inherit;font-weight:300;font-size:15px;outline:none;}
   .form-field input::placeholder{color:rgba(209,213,219,0.45);}
   .goi-dang-chon{font-size:14px;opacity:0.85;margin-bottom:16px;}
-  .goi-dang-chon b{color:var(--gold);opacity:1;}
+  .goi-dang-chon-ten{color:var(--gold);opacity:1;font-size:20px;font-weight:400;}
+  .goi-dang-chon-phu{font-size:14px;opacity:0.8;margin-left:2px;}
   .submit-btn{width:100%;padding:14px;background:var(--gold);color:var(--bg-navy);border:none;border-radius:8px;font-family:inherit;font-weight:400;font-size:16px;cursor:pointer;}
   .submit-btn:disabled{opacity:0.5;cursor:default;}
   .form-error{color:#ff8a8a;font-size:13px;margin-top:10px;display:none;}
