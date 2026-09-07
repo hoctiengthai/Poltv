@@ -34,12 +34,16 @@
   <div class="container">
 
     <div id="buoc1">
-      <p class="step-title"><b>Bước 1</b> - Chọn gói học</p>
       <div id="goiGrid"><div class="empty-msg">Đang tải danh sách gói...</div></div>
     </div>
 
     <div id="buoc2" class="form-wrap">
       <p class="step-title"><b>Bước 2</b> - Thông tin của bạn</p>
+      <ul class="step-guide-list">
+        <li>Điền đầy đủ thông tin và email kích hoạt (hệ thống chỉ kích hoạt cho đúng địa chỉ email mà bạn đăng ký).</li>
+        <li>Bấm nút "Đăng ký ngay" để chuyển sang Bước 3.</li>
+        <li>Đối với gói FREE trải nghiệm 1 tuần, hệ thống sẽ kích hoạt ngay lập tức sau khi bạn điền đầy đủ thông tin và email kích hoạt.</li>
+      </ul>
       <p class="goi-dang-chon">Gói đã chọn: <b id="tenGoiDangChon"></b></p>
 
       <div class="form-field">
@@ -134,18 +138,19 @@
 
   let goiDaChon = null;
   let danhSachGoiHienTai = [];
+  const TIEU_DE_BUOC1_HTML = '<p class="step-title"><b>Bước 1</b> - Chọn gói học</p>';
 
   function taiDanhSachGoi() {
     goiJsonp('danhSachGoi')
       .then(function (ketQua) {
         if (!ketQua.ok) {
-          document.getElementById('goiGrid').innerHTML = '<div class="empty-msg">Không tải được danh sách gói, vui lòng tải lại trang.</div>';
+          document.getElementById('goiGrid').innerHTML = TIEU_DE_BUOC1_HTML + '<div class="empty-msg">Không tải được danh sách gói, vui lòng tải lại trang.</div>';
           return;
         }
         hienThiDanhSachGoi(ketQua.goi || []);
       })
       .catch(function () {
-        document.getElementById('goiGrid').innerHTML = '<div class="empty-msg">Không tải được danh sách gói, vui lòng tải lại trang.</div>';
+        document.getElementById('goiGrid').innerHTML = TIEU_DE_BUOC1_HTML + '<div class="empty-msg">Không tải được danh sách gói, vui lòng tải lại trang.</div>';
       });
   }
 
@@ -153,7 +158,7 @@
     danhSachGoiHienTai = danhSach;
     const grid = document.getElementById('goiGrid');
     if (danhSach.length === 0) {
-      grid.innerHTML = '<div class="empty-msg">Hiện chưa có gói nào mở đăng ký.</div>';
+      grid.innerHTML = TIEU_DE_BUOC1_HTML + '<div class="empty-msg">Hiện chưa có gói nào mở đăng ký.</div>';
       return;
     }
 
@@ -161,7 +166,7 @@
     const bannerHtml = anhChung
       ? '<div class="goi-banner"><img src="' + escapeHtml(anhChung) + '" alt="Các gói học POLTV"></div>'
       : '';
-    const huongDanHtml = '<p class="huong-dan-text">Chọn 1 gói phù hợp bên dưới, điền thông tin của bạn ở Bước 2, và nhận mã QR thanh toán ngay trên trang này - không cần chờ email. Sau khi chuyển khoản, tài khoản của bạn sẽ được kích hoạt trong thời gian sớm nhất.</p>';
+    const huongDanHtml = '<p class="huong-dan-text">Chọn gói phù hợp bên dưới, sau đó điền thông tin của bạn ở Bước 2.</p>';
 
     let listHtml = '<div class="goi-list">';
     danhSach.forEach(function (g, idx) {
@@ -174,7 +179,7 @@
     });
     listHtml += '</div>';
 
-    grid.innerHTML = bannerHtml + huongDanHtml + listHtml;
+    grid.innerHTML = bannerHtml + TIEU_DE_BUOC1_HTML + huongDanHtml + listHtml;
   }
 
   function chonGoi(idx) {
@@ -242,6 +247,13 @@
         + '&accountName=' + encodeURIComponent(NGAN_HANG_TEN_CHU_TK);
 
       buoc3.innerHTML =
+        '<p class="step-title"><b>Bước 3</b> - Thanh toán</p>' +
+        '<ul class="step-guide-list">' +
+          '<li>Thanh toán số tiền theo mã QR hệ thống gửi về.</li>' +
+          '<li>Kiểm tra đúng số tiền theo gói bạn đã đăng ký và điền đúng 4 số của mã thanh toán vào nội dung thanh toán của app ngân hàng (nếu ngân hàng của bạn không tự động điền).</li>' +
+          '<li>Sau khi thanh toán thành công, hệ thống sẽ tự kích hoạt trong vòng vài phút.</li>' +
+          '<li>Bấm vào icon chat phía dưới màn hình nếu cần hỗ trợ.</li>' +
+        '</ul>' +
         '<p class="result-title">Quét mã QR để thanh toán</p>' +
         '<img class="qr-img" src="' + urlQR + '" alt="Mã QR thanh toán">' +
         '<div class="qr-info">' +
