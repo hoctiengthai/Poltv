@@ -67,7 +67,7 @@
 
   </div>
 
-  <a class="back-button-wrap" href="https://poltv.vn/">
+  <a class="back-button-wrap" href="https://poltv.vn/" onclick="return poltvHandleBackClick(event)">
     <div class="back-button-inner">
       <img src="https://poltv.vn/assets/interface/back-button.webp" alt="Quay lại">
     </div>
@@ -191,6 +191,32 @@
     document.getElementById('tenGoiDangChon').textContent = g.ten;
     document.getElementById('buoc2').classList.add('show');
     document.getElementById('buoc2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Nút "Quay lại" cố định cuối trang - CHỈ đi tới trang chủ (href mặc định)
+  // nếu còn đang ở đúng Bước 1 ban đầu (chưa chọn gói nào). Mọi trường hợp khác
+  // (đã sang Bước 2, hoặc đã nộp đăng ký nên Bước 1 đang bị ẩn - kể cả khi kết
+  // quả là lỗi) đều đưa NGƯỢC LẠI Bước 1 của chính trang đăng ký, không rời trang.
+  function poltvHandleBackClick(e) {
+    const buoc1El = document.getElementById('buoc1');
+    const buoc2El = document.getElementById('buoc2');
+    const daQuaBuoc1 = buoc1El.style.display === 'none' || buoc2El.classList.contains('show');
+    if (!daQuaBuoc1) return true;
+
+    e.preventDefault();
+    buoc1El.style.display = '';
+    buoc2El.classList.remove('show');
+    const buoc3El = document.getElementById('buoc3');
+    buoc3El.classList.remove('show');
+    buoc3El.innerHTML = '';
+    goiDaChon = null;
+    document.querySelectorAll('.goi-item').forEach(function (c) { c.classList.remove('selected'); });
+    const nut = document.getElementById('nutDangKy');
+    nut.disabled = false;
+    nut.textContent = 'Đăng ký ngay';
+    document.getElementById('formError').classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return false;
   }
 
   (function dienSanMaGioiThieu() {
