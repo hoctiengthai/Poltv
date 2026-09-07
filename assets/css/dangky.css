@@ -13,6 +13,10 @@
   .goi-banner{width:100%;border-radius:10px;overflow:hidden;margin-bottom:12px;}
   .goi-banner img{width:100%;display:block;}
   .huong-dan-text{font-size:14px;line-height:1.6;opacity:0.85;text-align:center;margin:0 0 20px;}
+  .step-guide-list{margin:0 0 20px;padding:0;list-style:none;font-size:14px;line-height:1.7;opacity:0.9;text-align:left;}
+  .step-guide-list li{position:relative;padding-left:18px;margin-bottom:8px;}
+  .step-guide-list li::before{content:"•";position:absolute;left:0;color:var(--gold);}
+  .step-guide-list li:last-child{margin-bottom:0;}
   .goi-list{display:flex;flex-direction:column;gap:10px;}
   .goi-item{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid rgba(209,213,219,0.35);border-radius:8px;padding:14px 16px;cursor:pointer;background:transparent;color:var(--gold);font-family:inherit;text-align:left;width:100%;transition:background 0.15s ease,border-color 0.15s ease;}
   .goi-item:hover{background:rgba(209,213,219,0.06);}
