@@ -7,3 +7,4 @@ Sitemap: https://poltv.vn/tuvung/sitemap.xml
 Sitemap: https://poltv.vn/luyennghe/sitemap.xml
 Sitemap: https://poltv.vn/luyennghecoban/sitemap.xml
 Sitemap: https://poltv.vn/nguphap/sitemap.xml
+Sitemap: https://poltv.vn/tudienthaiviet/sitemap.xml
