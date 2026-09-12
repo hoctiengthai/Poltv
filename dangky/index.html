@@ -22,6 +22,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://poltv.vn/assets/css/dangky.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18445987528"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18445987528');
+</script>
 </head>
 <body>
 <div class="page" role="main">
@@ -266,6 +274,14 @@
 
     const buoc3 = document.getElementById('buoc3');
     buoc3.classList.add('show');
+    if (ketQua.ok && typeof gtag === 'function') {
+      gtag('event', 'conversion', {
+        'send_to': 'AW-18445987528/7WtRCPL10fQcEMjd3dtE',
+        'value': 1.0,
+        'currency': 'VND'
+      });
+    }
+
 
     if (ketQua.ok && ketQua.loai === 'qr') {
       const urlQR = 'https://img.vietqr.io/image/' + NGAN_HANG_BIN + '-' + NGAN_HANG_SO_TK + '-compact2.png'
